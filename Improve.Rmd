@@ -1,0 +1,87 @@
+---
+title: "NewVision"
+author: "Mykola Zalevskyi"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#\usepackage[T2A]{fontenc}    % Для кириличних шрифтів
+```
+
+```{r}
+library(dplyr) # для роботи з даними
+library(ggplot2) # для візуалізації даних
+library(xlsx) # для роботи з Excel
+```
+
+```{r}
+setwd("D:/StatVillage/R")
+data <- read.csv("Tablet2.csv", sep = "", header = FALSE, na.strings = c("."), colClasses = "character") #Занантажуємо таблицю в розширенні .csv, сепаруємо пробіли та задаємо параметр "header = FALSE", щоб весь файл був завантажений як дані, а не щоб перший рядок став заголовком. Далі замінюємо значення: "." на "NA" і перетворюємо всі значення на текст, щоб зберегти нулі 4-го стовпця
+colnames(data) <- c("BLOCK", "UNIT", "HHSIZE", "HHPER", "NUEMPINH", "NUIRH", "EMPINCH", "INVSTH", "GOVINCH", "OTINCH", "TOTINCH", "DTYPEH", "BUILTH", "TENURH", "MORGH", "ROOMH", "BROOMH", "VALUEH", "GROSRTH", "OMPH", "HMAGE", "HMSEX", "HMMTN", "HMHLOS", "HMOCC91", "HMLFACT", "HMWKSWK", "HMEMPIN", "SHMAGE", "SHMSEX", "SHMMTN", "SHMHLOS", "SHMOCC91", "SHMLFACT", "SHMWKSWK", "SHMEMPIN") #змінюємо заголовки
+print(data)
+```
+
+Простий випадковий відбір без повернення
+```{r}
+INCOME <- as.numeric(data$TOTINCH)
+INCOME_LENGHT <- length(data[[11]]) # Загальна кількість елементів
+# Відсоток для вибірки (20–25%)
+percent <- 0.2  # або 0.25
+# Кількість елементів для вибірки
+n <- round(INCOME_LENGHT * percent)
+# Приклад набору даних
+sampleSRSWOR <- sample(INCOME, n, replace = FALSE)
+
+print(sampleSRSWOR)
+```
+
+```{r}
+# Середньоквадратичне відхилення
+std_dev <- sqrt(variance)
+print(std_dev)
+```
+Систематичний відбір
+```{r}
+# Визначимо інтервал відбору (наприклад, вибираємо кожен 3-й елемент)
+k <- 3
+
+# Крок 1: Вибір випадкового початкового елемента
+start <- sample(1:k, 1)
+
+# Крок 2: Виконання систематичного відбору
+sampleSRS <- INCOME[seq(start, length(INCOME), by = k)]
+
+# Виведення результату
+print(sampleSRS)
+```
+
+
+
+
+```{r}
+# Розрахунок середнього значення
+average <- mean(INCOME)#Середнє значення всієї вибірки
+print(average)
+averageSRSWOR <- mean(sampleSRSWOR)#простий випадковий відбір без повернення
+print(averageSRSWOR)
+averageSRS <- mean(sampleSRS)#систематичний відбір
+print(averageSRS)
+```
+
+Дисперсія
+```{r}
+desp1 <- c(average, averageSRSWOR)
+var1 <- var(desp1)#дисперсія між середнім значенням та простим випадковим відбіром без повернення
+desp2 <- c(average, averageSRS)
+var2 <- var(desp2)#дисперсія між середнім значенням та систематичним відбором
+```
+
+```{r}
+
+```
+
